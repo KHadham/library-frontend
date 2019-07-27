@@ -8,6 +8,7 @@ export const getHist = () => {
     payload: axios.get(URL+'/history'),
   };
 };
+/////////////////////////////////////////////
 export const postHist = (data) => {
   //console.log('ini dari aksi',data[0]);
   return {
@@ -15,11 +16,27 @@ export const postHist = (data) => {
     payload: axios.post(URL+'/history', data[0])
   };
 };
-
+/////////////////////////////////////////////
 export const deleteHist = (param) =>{
   //console.log('action id', param)
 	return{
 		type: 'DELETE_HISTORY',
 		payload: axios.delete(URL +`/history/${param}`)
 	}
+}
+/////////////////////////////////////////////
+export const getHist1 = (bookid) => {
+  console.log("book id: " + bookid)
+  return {
+      type: 'GET_HISTORY1',
+      payload: axios.get(URL +`/history/${bookid}`)
+  }
+}
+/////////////////////////////////////////////
+export const updateHist = (bookid, data) => {
+  //console.log("book id: " + bookid)
+  return {
+      type: 'UPDATE_HISTORY',
+      payload: axios.patch(URL +`/history/${bookid}`, data)
+  }
 }

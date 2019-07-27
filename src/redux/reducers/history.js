@@ -48,6 +48,69 @@ const buku = (state = initialState, action) => {
           isFulfilled: true,
           ListHistory: action.payload.data
         };
+        /////////////GET1//////////////////////////////////////////
+    case 'GET_HISTORY1_PENDING': // in case when loading post data
+    return {
+      ...state,
+      isLoading: true,
+      isFulFilled: false,
+      isRejected: false
+      }
+  case 'GET_HISTORY1_REJECTED': // in case error network/else
+      return {
+          ...state,
+          isLoading: false,
+          isRejected: true,
+      }
+  case 'GET_HISTORY1_FULFILLED': // in case successfuly post data
+      return {
+          ...state,
+          isLoading: false,
+          isFulFilled: true,
+          ListHistory: action.payload.data,
+      }
+///////////////DELETE////////////////////////////////////////        
+    case 'DELETE_BOOK_PENDING': // in case when loading post data
+        return {
+            ...state,
+            isLoading: true,
+            isFulFilled: false,
+            isRejected: false
+        }
+    case 'DELETE_BOOK_REJECTED': // in case error network/else
+        return {
+            ...state,
+            isLoading: false,
+            isRejected: true,
+        }
+    case 'DELETE_BOOK_FULFILLED': // in case successfuly post data
+        return {
+            ...state,
+            isLoading: false,
+            isFulFilled: true,
+            ListHistory: [state.ListHistory, action.payload.data[0]],
+        }
+//////////////UPDATE/////////////////////////////////////////          
+    case 'UPDATE_BOOK_PENDING': // in case when loading post data
+        return {
+            ...state,
+            isLoading: true,
+            isFulFilled: false,
+            isRejected: false
+        }
+    case 'UPDATE_BOOK_REJECTED': // in case error network/else
+        return {
+            ...state,
+            isLoading: false,
+            isRejected: true,
+        }
+    case 'UPDATE_BOOK_FULFILLED': // in case successfuly post data
+        return {
+            ...state,
+            isLoading: false,
+            isFulFilled: true,
+            ListHistory: [state.ListHistory, action.payload.data[0]],
+        }
     default:
       return state;
   }

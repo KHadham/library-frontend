@@ -47,7 +47,7 @@ state = {
       
       const data = this.state.insertHist
       this.props.dispatch(postHist(data));
-      setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
+      setTimeout(function(){ if(! alert("selamat membaca")){window.location.reload();} }, 500);
 
     }
 

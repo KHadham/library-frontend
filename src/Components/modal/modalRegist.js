@@ -44,7 +44,7 @@ state = {
 
       const data = this.state.insertUser
       this.props.dispatch(postUser(data));
-      setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
+      setTimeout(function(){ if(! alert("anda telah menfaftar ,silahkan login")){window.location.reload();} }, 500);
       //if(!alert('data sudah di daftarkan')){window.location.reload();}
     }
 
@@ -80,7 +80,7 @@ state = {
                   password
                 </label>
                 <input
-                  type="text"  className="form-control"   required
+                  type="password"  className="form-control"   required
                   onChange = {(e)=>this.setState({password:e.target.value})}
                 />
               </div>

@@ -8,7 +8,7 @@ export const getUser = () => {
     payload: axios.get(URL+'/users'),
   };
 };
-
+/////////////////////////////////////////////
 export const postUser = (data) => {
   //console.log('ini dari aksi',data[0]);
   return {
@@ -16,11 +16,27 @@ export const postUser = (data) => {
     payload: axios.post(URL+'/users', data[0])
   };
 };
-
+/////////////////////////////////////////////
 export const deleteUser = (param) =>{
   //console.log('action id', param)
 	return{
 		type: 'DELETE_USERS',
 		payload: axios.delete(URL +`/users/${param}`)
 	}
+}
+/////////////////////////////////////////////
+export const getUser1 = (bookid) => {
+  console.log("book id: " + bookid)
+  return {
+      type: 'GET_USERS1',
+      payload: axios.get(URL +`/users/${bookid}`)
+  }
+}
+/////////////////////////////////////////////
+export const updateUser = (bookid, data) => {
+  //console.log("book id: " + bookid)
+  return {
+      type: 'UPDATE_USERS',
+      payload: axios.patch(URL +`/users/${bookid}`, data)
+  }
 }

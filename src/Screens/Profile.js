@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import MaterialTable from 'material-table'
 import { Link } from 'react-router-dom'
-import {getUser} from '../redux/actions/user';
+import {getUser,deleteUser} from '../redux/actions/user';
 
 class profile extends Component {
   //buat state kosong
@@ -16,11 +16,16 @@ class profile extends Component {
       proff: this.props.user,
     });
   };
+  handledetails = async (id) =>{
+    //this.props.history.push(`/borrowing/details/${id}`)
+    await this.props.dispatch(deleteUser(id));
+    setTimeout(function(){ if(! alert("data telah di hapus")){window.location.reload();} }, 500);
 
+  }
   render() {
     const {proff} = this.state;
     const list = proff.listaasdas;
-    console.log(list);
+    console.log( this.props);
 
     const list_kategori = this.state.proff;
     console.log('ini dari list bawah ya', list_kategori.ListBuku)
@@ -67,15 +72,21 @@ class profile extends Component {
           }       
           
               
-          actions={[
-            {
-              icon: 'add',
-              tooltip: 'Add User',
-              isFreeAction: true,
+          actions={ [
+            { 
+              className: 'btn btn-danger btn-sm',
+              icon: 'edit',
+              tooltip: 'edit',
+              onClick: () =>this.handleupdate()
+            },
+            {   
+              className: 'btn btn-danger btn-sm',
+              icon: 'delete',
+              tooltip: 'Detail Peminjaman',
+              onClick: (event, rowData) =>this.handledetails(rowData.f)
               
-              //onClick: (event) => alert("You want to add a new row")
             }
-          ]}
+          ]} 
         />
       
       </div></div>

@@ -4,7 +4,7 @@ import MaterialTable from 'material-table'
 import moment from "moment";
 import Modal from '../Components/modal/modalAddHist'
 import { Link } from 'react-router-dom'
-import {getHist} from '../redux/actions/history';
+import {getHist,deleteHist} from '../redux/actions/history';
 
 class histoooriii extends Component {
   //buat state kosong
@@ -18,7 +18,12 @@ class histoooriii extends Component {
       DataHistory: this.props.history,
     });
   };
+  handledetails = async (id) =>{
+    //this.props.history.push(`/borrowing/details/${id}`)
+    await this.props.dispatch(deleteHist(id));
+    setTimeout(function(){ if(! alert("data telah di hapus")){window.location.reload();} }, 500);
 
+  }
   render() {
     
     console.log("cokk",this.state.DataHistory)
@@ -59,15 +64,21 @@ class histoooriii extends Component {
             }       
           
               
-          actions={[
-            {
-              icon: 'add',
-              tooltip: 'Add User',
-              isFreeAction: true,
+            actions={ [
+            { 
+              className: 'btn btn-danger btn-sm',
+              icon: 'edit',
+              tooltip: 'edit',
+              onClick: () =>this.handleupdate()
+            },
+            {   
+              className: 'btn btn-danger btn-sm',
+              icon: 'delete',
+              tooltip: 'Detail Peminjaman',
+              onClick: (event, rowData) =>this.handledetails(rowData.f)
               
-              //onClick: (event) => alert("You want to add a new row")
             }
-          ]}
+          ]} 
         />
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             Open modal

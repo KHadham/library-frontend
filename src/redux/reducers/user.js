@@ -27,7 +27,7 @@ const users = (state = initialState, action) => {
         isFulfilled: true,
         ListUser: action.payload.data.result,
       };
-///////////////////////////////////////////////////////
+/////////POST//////////////////////////////////////////////
     case "POST_USERS_PENDING":
       return {
         ...state,
@@ -48,6 +48,69 @@ const users = (state = initialState, action) => {
         isFulfilled: true,
         ListUser: action.payload.data.result
       };
+/////////////GET1//////////////////////////////////////////
+    case 'GET_USER1_PENDING': // in case when loading post data
+      return {
+        ...state,
+        isLoading: true,
+        isFulFilled: false,
+        isRejected: false
+        }
+    case 'GET_USER1_REJECTED': // in case error network/else
+        return {
+            ...state,
+            isLoading: false,
+            isRejected: true,
+        }
+    case 'GET_USER1_FULFILLED': // in case successfuly post data
+        return {
+            ...state,
+            isLoading: false,
+            isFulFilled: true,
+            ListUser: action.payload.data,
+        }
+///////////////DELETE////////////////////////////////////////        
+    case 'DELETE_BOOK_PENDING': // in case when loading post data
+        return {
+            ...state,
+            isLoading: true,
+            isFulFilled: false,
+            isRejected: false
+        }
+    case 'DELETE_BOOK_REJECTED': // in case error network/else
+        return {
+            ...state,
+            isLoading: false,
+            isRejected: true,
+        }
+    case 'DELETE_BOOK_FULFILLED': // in case successfuly post data
+        return {
+            ...state,
+            isLoading: false,
+            isFulFilled: true,
+            ListUser: [state.ListUser, action.payload.data[0]],
+        }
+//////////////UPDATE/////////////////////////////////////////          
+    case 'UPDATE_BOOK_PENDING': // in case when loading post data
+        return {
+            ...state,
+            isLoading: true,
+            isFulFilled: false,
+            isRejected: false
+        }
+    case 'UPDATE_BOOK_REJECTED': // in case error network/else
+        return {
+            ...state,
+            isLoading: false,
+            isRejected: true,
+        }
+    case 'UPDATE_BOOK_FULFILLED': // in case successfuly post data
+        return {
+            ...state,
+            isLoading: false,
+            isFulFilled: true,
+            ListUser: [state.ListUser, action.payload.data[0]],
+        }
     default:
       return state;
   }

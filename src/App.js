@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import Nav from './Components/Nav';
 import Profile from './Screens/Profile';
 import BUUKUU from './Screens/book';
+import BuKuDeTaIl from './Screens/bookDetail';
 import HIST from './Screens/history';
 import store from './redux/store';
 
@@ -23,10 +24,11 @@ class App extends Component {
         <div>
           <Router>
             <Nav />
-            <Route exact path="/" component={BUUKUU} />
-            <Route path={'/buku'} component={BUUKUU} />
-            <Route path={'/history'} component={HIST} />
-            <Route path={'/profile'} component={Profile} />
+            <Route exact path="/" component={HIST} />
+            <Route exact path={'/buku'} component={BUUKUU} />
+            <Route  exact path={'/buku/:id'} component={BuKuDeTaIl} />
+            <Route  exact path={'/history'} component={HIST} />
+            <Route  exact path={'/profile'} component={Profile} />
           </Router>
         </div>
       </Provider>
