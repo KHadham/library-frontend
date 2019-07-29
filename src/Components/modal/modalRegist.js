@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {getKategory} from "../../redux/actions/kategori";
 import {postUser} from "../../redux/actions/user";
 
 
@@ -32,7 +31,7 @@ state = {
   
   render() {
     
-    const insertList =async ()=>{
+    const insertList = async ()=>{
       this.state.insertUser.push({
         email:this.state.email,
         password:this.state.password,

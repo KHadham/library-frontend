@@ -49,7 +49,7 @@ class Weapon extends Component {
     return (
       <React.Fragment>
       <div className="container">
-        <div className="mt-5">
+        <div className="mt-3">
         <MaterialTable
           title="Data Buku"
           columns={[
@@ -71,7 +71,7 @@ class Weapon extends Component {
               render: rowData => (
 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wikwik">
-                  edit
+                  {rowData.g}
                 </button>
                 
                 // <Link to={`/buku/${rowData.f}`} >
@@ -79,7 +79,6 @@ class Weapon extends Component {
                 // </Link>
               ),
             },
-            { title: 'status_pinjam',       field: 'f' },
             { title: 'judul',    field: 'a' },
             { title: 'writer',   field: 'b' },
             { title: 'location', field: 'c' },
@@ -89,12 +88,13 @@ class Weapon extends Component {
           data= {arrayBaru.map((ress, index) =>{
             return(
               {
-                f: ress.status_pinjam,
+                f: ress.id_library,
                 a: ress.nama_buku,
                 b: ress.pengarang,
                 c: ress.lokasi,
                 d: text(ress.deskripsi),
                 e:ress.foto_sampul,
+                g:ress.status_pinjam,
               }
             ) 
                 }
@@ -108,8 +108,16 @@ class Weapon extends Component {
               className: 'btn btn-danger btn-sm',
               icon: 'edit',
               tooltip: 'edit',
-              onClick: () =>this.handleupdate()
+              datatoggle:"modal" ,
+              datatarget:"#wikwik",
+              
             },
+            rowData => ({
+            icon: 'event_note',
+            tooltip: 'pinjam Buku',
+            onClick: (event, rowData) => alert("You want to delete " + rowData.a),
+            disabled: rowData.g !== "tersedia"
+          }),
             {   
               className: 'btn btn-danger btn-sm',
               icon: 'delete',
@@ -218,7 +226,7 @@ class Weapon extends Component {
 
 const mapStateToProps = state => {
   return {
-    buku: state.buku,
+    buku: state.reBuku,
   };
 };
 

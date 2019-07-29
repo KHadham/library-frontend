@@ -1,15 +1,15 @@
 import {combineReducers} from 'redux';
 
-import user from './user';
-import buku from './book';
-import history from './history';
-import kategori from './kategori';
+import reUser from './user';
+import reBuku from './book';
+import reHistory from './history';
+import reKategori from './kategori';
 
 const appReducer = combineReducers({
-  user,
-  buku,
-  history,
-  kategori
+  reUser,
+  reBuku,
+  reHistory,
+  reKategori
 });
 
 export default appReducer;

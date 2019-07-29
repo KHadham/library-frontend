@@ -20,7 +20,7 @@ class Detail extends Component {
 
     componentDidMount = async () => {
       
-        await this.props.dispatch(getBuku1(this.props.match.params.id))
+        await this.props.dispatch(getBuku1(this.props.match.params.idd))
         this.setState({
             books:  this.props.book
         })
@@ -54,7 +54,6 @@ class Detail extends Component {
                         <ul className="tambahandetail">
                             <li><h5 className="category">{list ? list.nama_kategori : ''}</h5></li>
                             <li><h5 className="location">{list ? list.lokasi : ''}</h5></li>
-                         
                             <li><h5 className="status">{list ? list.status_pinjam : ''}</h5></li>
                         </ul>
                         <p className="textDesc" >{list ? list.deskripsi : ''}</p>
@@ -68,7 +67,7 @@ class Detail extends Component {
 
 const mapStateToProps = state => {
     return {
-        book: state.buku,
+        book: state.reBuku,
         upadate: state.update,
         deleteBook:state.buku
     };

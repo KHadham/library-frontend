@@ -124,7 +124,8 @@ state = {
     );
   }
 }
-const mapStateToProps = state => ({ buku: state.buku,user: state.user,postHist
+
+const mapStateToProps = state => ({ buku:state.reBuku, user: state.reUser,postHist
 
 })
 

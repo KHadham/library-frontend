@@ -147,7 +147,7 @@ state = {
     );
   }
 }
-const mapStateToProps = state => ({ kategori: state.kategori,postBuku
+const mapStateToProps = state => ({ kategori: state.reKategori,postBuku
 
 })
 

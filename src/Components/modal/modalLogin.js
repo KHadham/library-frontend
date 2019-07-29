@@ -9,7 +9,7 @@ class Navbar extends Component {
 
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Pendaftaran Sekolah</h4>
+        <h4 class="modal-title">Daftarkan Dirimu</h4>
       </div>
       <div class="modal-body">
         <form>

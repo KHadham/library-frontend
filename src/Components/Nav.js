@@ -31,7 +31,7 @@ class Navbar extends Component {
 					</ul>
               
 						
-						<div style={{ marginLeft: '65%', borderRight: '1px solid  rgb(185, 185, 185)', marginTop: '10px', height: '20px' }}></div>
+						<div style={{ marginLeft: '60%', borderRight: '1px solid  rgb(185, 185, 185)', marginTop: '10px', height: '20px' }}></div>
 
 						<div class="float-right">
 							<ul class="navbar-nav float-right">

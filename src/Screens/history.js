@@ -57,6 +57,8 @@ class histoooriii extends Component {
                       d: ress.lama_pinjam+" hari",
                       e: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
                       g: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
+                      h: ress.tanggal_kembali,
+
                     }
                   ) 
                 }
@@ -65,18 +67,17 @@ class histoooriii extends Component {
           
               
             actions={ [
-            { 
-              className: 'btn btn-danger btn-sm',
-              icon: 'edit',
-              tooltip: 'edit',
-              onClick: () =>this.handleupdate()
-            },
-            {   
+              rowData => ({
+            icon: 'reply',
+            tooltip: 'Kembalikan Buku',
+            onClick: (event, rowData) => alert("You want to delete " + rowData.a),
+            disabled: rowData.g !== "Invalid date"
+          }),
+          {   
               className: 'btn btn-danger btn-sm',
               icon: 'delete',
               tooltip: 'Detail Peminjaman',
               onClick: (event, rowData) =>this.handledetails(rowData.f)
-              
             }
           ]} 
         />
@@ -92,7 +93,7 @@ class histoooriii extends Component {
 
 const mapStateToProps = state => {
   return {
-    history: state.history,
+    history: state.reHistory,
   };
 };
 

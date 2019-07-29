@@ -67,7 +67,7 @@ const users = (state = initialState, action) => {
             ...state,
             isLoading: false,
             isFulFilled: true,
-            ListUser: action.payload.data,
+            ListUser: action.payload.data.result,
         }
 ///////////////DELETE////////////////////////////////////////        
     case 'DELETE_BOOK_PENDING': // in case when loading post data
