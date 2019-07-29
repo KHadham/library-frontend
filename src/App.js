@@ -30,7 +30,7 @@ class App extends Component {
             <Route  exact path={'/buku/:idd'} component={BuKuDeTaIl} />
             <Route  exact path={'/history'} component={HIST} />
             <Route  exact path={'/profile'} component={Profile} />
-            <Route  exact path={'/users/:id'} component={UserDetail} />
+            <Route  exact path={'/users/:iduser'} component={UserDetail} />
           </Router>
         </div>
       </Provider>

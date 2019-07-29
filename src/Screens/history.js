@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import MaterialTable from 'material-table'
 import moment from "moment";
 import Modal from '../Components/modal/modalAddHist'
-import { Link } from 'react-router-dom'
 import {getHist,deleteHist} from '../redux/actions/history';
 
 class histoooriii extends Component {
@@ -68,18 +67,18 @@ class histoooriii extends Component {
               
             actions={ [
               rowData => ({
-            icon: 'reply',
-            tooltip: 'Kembalikan Buku',
-            onClick: (event, rowData) => alert("You want to delete " + rowData.a),
-            disabled: rowData.g !== "Invalid date"
-          }),
-          {   
-              className: 'btn btn-danger btn-sm',
-              icon: 'delete',
-              tooltip: 'Detail Peminjaman',
-              onClick: (event, rowData) =>this.handledetails(rowData.f)
-            }
-          ]} 
+                icon: 'reply',
+                tooltip: 'Kembalikan Buku',
+                onClick: (event, rowData) => alert("You want to delete " + rowData.a),
+                disabled: rowData.g !== "Invalid date"
+              }),
+              {   
+                  className: 'btn btn-danger btn-sm',
+                  icon: 'delete',
+                  tooltip: 'Detail Peminjaman',
+                  onClick: (event, rowData) =>this.handledetails(rowData.f)
+                }
+              ]} 
         />
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             Open modal

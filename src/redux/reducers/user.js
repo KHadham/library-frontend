@@ -7,6 +7,7 @@ const initialState = {
 
 const users = (state = initialState, action) => {
   switch (action.type) {
+    /////////////////////////////////////////////////////    
     case 'GET_USERS_PENDING':
       return {
         ...state,

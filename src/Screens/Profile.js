@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import MaterialTable from 'material-table'
 import { Link } from 'react-router-dom'
 import {getUser,deleteUser} from '../redux/actions/user';
-import { func } from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class profile extends Component {
   //buat state kosong
@@ -42,11 +42,14 @@ class profile extends Component {
           title="Data ussr"
           columns={[
             {
-              title: 'Avatar',
+              title: '',
               field: 'e',
               render: rowData => (
                 <Link to={`/users/${rowData.f}`} >
-                    <p>e</p>
+                <Tooltip title="Detail User">
+                <img  placement="top-start" style = {{width:"30px"}}src="https://image.flaticon.com/icons/png/512/1/1755.png" alt="Italian Trulli"/>
+                </Tooltip>
+                
                 </Link>
               ),
             },
@@ -86,7 +89,7 @@ class profile extends Component {
             {   
               className: 'btn btn-danger btn-sm',
               icon: 'delete',
-              tooltip: 'Detail Peminjaman',
+              tooltip: 'Delete njing',
               onClick: (event, rowData) =>this.handledelete(rowData.f)
               
             }

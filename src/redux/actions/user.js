@@ -25,11 +25,11 @@ export const deleteUser = (param) =>{
 	}
 }
 /////////////////////////////////////////////
-export const getUser1 = (bookid) => {
-  console.log("book id: " + bookid)
+export const getUser1 = (param1) => {
+  console.log("book id: " + param1)
   return {
-      type: 'GET_USERS1',
-      payload: axios.get(URL +`/users/${bookid}`)
+      type: 'GET_USER1',
+      payload: axios.get(URL +`/users/${param1}`)
   }
 }
 /////////////////////////////////////////////
