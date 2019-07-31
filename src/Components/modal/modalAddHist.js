@@ -47,7 +47,7 @@ state = {
       
       const data = this.state.insertHist
       this.props.dispatch(postHist(data));
-      setTimeout(function(){ if(! alert("selamat membaca")){window.location.reload();} }, 500);
+      setTimeout(function(){ if(! alert("selamat membaca")){window.location.reload();} }, 200);
 
     }
 
@@ -92,7 +92,7 @@ state = {
               
                 {array.map((list, index) =>{
                   return(
-                      <option key ={index} value={list.id}>{list.nama_buku}</option>
+                      <option key ={index} value={list.id_library}>{list.nama_buku}</option>
                   )
               })}
               </select >

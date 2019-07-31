@@ -1,78 +1,195 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getBuku1, deleteBuku, updateBuku } from '../redux/actions/book'
-import Modal from '../Components/modal/modalAddHist'
+import { Link } from "react-router-dom";
+import {
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	Form,
+	FormGroup,
+	Label,
+	Col,
+	Input
+} from 'reactstrap';
+import swal from 'sweetalert';
+import '../assets/BookForm.css'
 
-import '../../src/index.css'
+import { getBook, updateBook } from '../Publics/redux/actions/book';
 
-class Detail extends Component {
 
+class Update extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false,
+            modal: true,
             books: [],
-            updates: [],
+            tmp: []
         };
+
         this.toggle = this.toggle.bind(this);
     }
-
     componentDidMount = async () => {
-      
-        await this.props.dispatch(getBuku1(this.props.match.params.idd))
+				const bookid = this.props.match.params.bookid
+				
+				await this.props.dispatch(getBook(bookid));
+				
         this.setState({
-            books:  this.props.book
-        })
-    } 
-    
-
+            books: this.props.book
+        });
+    };
 
     toggle() {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
+        this.setState({
+            modal: !this.state.modal
+        });
     }
-
-
+    changeHandle = (e) => {
+        const name = e.currentTarget.name
+				const val = e.currentTarget.value
+				
+        this.state.books.bookList[name] = val
+        this.setState({ books: this.state.books })
+    }
     render() {
-        //const { books } = this.state
-        const list = this.state.books.ListBuku
-        console.log("isi", this.state.books.ListBuku)
+        const editbooks = () => {
+			
+            this.state.tmp.push({
+							name: list ? list.name:'',
+							writer: list ? list.writer:'',
+							image: list ? list.image:'',
+						
+            
+            });
+        edit()
+            this.setState((prevState) => ({
+                modal: !prevState.modal
+            }));
+
+        };
+        
+        let edit = async () => {  
+            await this.props.dispatch(updateBook((this.state.tmp[0]), this.props.match.params.bookid))
+            .then(() => {
+                swal({
+                  title: "Update",
+                  text: `Update Success`,
+                  icon: "success",
+                  button: "OK"
+                }).then(() => {
+                  window.location.href = '/books/';
+                })
+              })
+        };
+        
+        const list = this.state.books.bookList;
+        console.log(this.state.tmp)
+
         return (
-          
-            <div style={{ backgroundColor: '#f2f2f2', marginBottom: '3em' }}>
-           
-                <section>
-                    <img className="cover"  src={list ? list.foto_sampul : ''} alt=".." />
-                    <img className="imgThum" src={list ? list.foto_sampul : ''} alt=".." />
-                </section>
-                <section>
-                    <div className="textDetail container" style={{ backgroundColor: '#f2f2f2', marginTop: '20px' }}>
-                        <h1 className="font" >{list ? list.book_name : ''}</h1>
-                        <h3>{list ? list.pengarang : ''}</h3>
-                        <ul className="tambahandetail">
-                            <li><h5 className="category">{list ? list.nama_kategori : ''}</h5></li>
-                            <li><h5 className="location">{list ? list.lokasi : ''}</h5></li>
-                            <li><h5 className="status">{list ? list.status_pinjam : ''}</h5></li>
-                        </ul>
-                        <h1>{list ? list.deskripsi : ''}</h1>
-
-                        <p className="textDesc" >{list ? list.deskripsi : ''}</p>
-
-                    </div>
-                </section>
-            {/* <Modal/> */}
-            </div>)
+            <div>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className="{this.props.className} modal-lg">
+                    <ModalHeader toggle={this.toggle}>
+                        <b>Book Data</b>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Form >
+                            <FormGroup row >
+                                <Label sm={2} size="lg">
+                                    Name
+								</Label>
+                                <Col sm={8}>
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        id="title"
+                                        placeholder="Name..."
+                                        bsSize="lg"
+                                        value={list ? list.name:''}
+                                        onChange={this.changeHandle}
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row >
+                                <Label sm={2} size="lg">
+                                    Writer
+								</Label>
+									<Col sm={8}>
+											<Input
+													type="text"
+													name="writer"
+													id="title"
+													placeholder="Writer..."
+													bsSize="lg"
+													value={list ? list.writer:''}
+													onChange={this.changeHandle}
+											/>
+									</Col>
+							</FormGroup>
+							<FormGroup row>
+									<Label sm={2} size="lg">
+											Image
+								</Label>
+								<Col sm={8}>
+								<Input
+								type="text"
+								name="image"
+								id="title"
+								placeholder="Image..."
+								bsSize="lg"
+								value={list ? list.image:''}
+								onChange={this.changeHandle}
+									/>
+								</Col>
+						</FormGroup>
+						<FormGroup row >
+								<Label sm={2} size="lg">
+									Category
+								</Label>
+								<Col sm={8}>
+									<select style={{
+										color: 'white',
+										backgroundColor: 'black',
+										marginTop:'15px',
+										width:'100px',}} 
+										value={list ? list.fk_cat:''}                                  
+										onChange={this.changeHandle}>
+									<option value='Fiksi' >Fiksi</option>
+									<option value='Anak'>Anak</option>
+									</select>
+								</Col>
+                            </FormGroup>
+                            <FormGroup row >
+                                <Label sm={2} size="lg">
+									Location
+								</Label>
+								<Col sm={8}>
+                                    <select style={{
+										color: 'white',
+										backgroundColor: 'black',
+										marginTop:'15px',
+										width:'100px',}}  
+                                        value={list ? list.fk_loc:''}                                  
+                                            onChange={this.changeHandle}>
+										<option value={list ? list.fk_loc:'Rak 1'} >Rak 1</option>
+										<option value={list ? list.fk_loc:'Rak 1'}>Rak 2</option>
+									</select>
+								</Col>
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                     <button class="buttonSave" onClick={editbooks.bind(this)}>
+                            SAVE
+						</button>
+                    </ModalFooter>
+                </Modal>
+            </div>
+        );
     }
 }
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        book: state.reBuku,
-        upadate: state.update,
-        deleteBook:state.buku
+        book: state.book
     };
 };
-
-export default connect(mapStateToProps)(Detail);
+export default connect(mapStateToProps)(Update);

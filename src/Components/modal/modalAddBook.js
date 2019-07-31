@@ -35,12 +35,12 @@ state = {
     
     const insertList =async ()=>{
       this.state.insertBook.push({
-        nama_buku:this.state.nama_buku,
-        lokasi:this.state.lokasi,
-        pengarang:this.state.pengarang,
-        deskripsi:this.state.deskripsi,
-        foto_sampul:this.state.foto_sampul,
-        id_kategori:this.state.id_category
+        nama_buku   :this.state.nama_buku,
+        lokasi      :this.state.lokasi,
+        pengarang   :this.state.pengarang,
+        deskripsi   :this.state.deskripsi,
+        foto_sampul :this.state.foto_sampul,
+        id_kategori :this.state.id_category
       })
 
       const data = this.state.insertBook

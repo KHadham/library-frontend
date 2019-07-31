@@ -29,7 +29,6 @@ class profile extends Component {
     //this.state.proff.ListUser.push(`/users/${id}`)
   }
   render() {
-   
 
     const list_kategori = this.state.proff;
     console.log('ini dari list bawah ya', list_kategori.ListBuku)
@@ -46,10 +45,9 @@ class profile extends Component {
               field: 'e',
               render: rowData => (
                 <Link to={`/users/${rowData.f}`} >
-                <Tooltip title="Detail User">
-                <img  placement="top-start" style = {{width:"30px"}}src="https://image.flaticon.com/icons/png/512/1/1755.png" alt="Italian Trulli"/>
-                </Tooltip>
-                
+                  <Tooltip title="Detail User">
+                  <img  placement="top-start" style = {{width:"30px"}}src="https://image.flaticon.com/icons/png/512/1/1755.png" alt="Italian Trulli"/>
+                  </Tooltip>
                 </Link>
               ),
             },

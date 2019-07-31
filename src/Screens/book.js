@@ -21,7 +21,6 @@ class Weapon extends Component {
     this.setState({
       isiBukunya: this.props.buku,
       isiKategori: this.props.kategori,
-
     });
   };
 
@@ -69,10 +68,14 @@ class Weapon extends Component {
               title: 'Avatar',
               field: 'e',
               render: rowData => (
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wikwik">
-                  {rowData.g}
-                </button>
+                rowData.g === "tersedia" ?
+                  (<button type="button" class="btn btn-success" data-toggle="modal" data-target="#wikwik">
+                    <h6>{rowData.g}</h6>
+                  </button>) :
+                  (<button type="button" class="btn btn-secondary btn-sm" disabled data-toggle="modal" data-target="#wikwik">
+                     <h6>{rowData.g}</h6>
+                  </button>)
+                // 
                 
                 // <Link to={`/buku/${rowData.f}`} >
                 //     <img src={rowData.e} alt="" style={{width:"100px", height:"100px"}}></img>
@@ -83,20 +86,19 @@ class Weapon extends Component {
             { title: 'writer',   field: 'b' },
             { title: 'location', field: 'c' },
             { title: 'desc',     field: 'd' },
-            
           ]}
           data= {arrayBaru.map((ress, index) =>{
             return(
-              {
-                f: ress.id_library,
-                a: ress.nama_buku,
-                b: ress.pengarang,
-                c: ress.lokasi,
-                d: text(ress.deskripsi),
-                e:ress.foto_sampul,
-                g:ress.status_pinjam,
-              }
-            ) 
+                    {
+                      f: ress.id_library,
+                      a: ress.nama_buku,
+                      b: ress.pengarang,
+                      c: ress.lokasi,
+                      d: text(ress.deskripsi),
+                      e:ress.foto_sampul,
+                      g:ress.status_pinjam,
+                    }
+                  ) 
                 }
               )
             
@@ -109,7 +111,7 @@ class Weapon extends Component {
               icon: 'edit',
               tooltip: 'edit',
               datatoggle:"modal" ,
-              datatarget:"#wikwik",
+              datatarget:"apdet",
               
             },
             rowData => ({
@@ -128,94 +130,9 @@ class Weapon extends Component {
         />
       </div>
       <div>
-      <form action="http://www.w3schools.com">
-      <div class="modal fade" id="wikwik">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h6 class="modal-title">donate book</h6>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-            <div className="form-group">
-              <label className="control-label">
-                Nama buku
-              </label>
-              <input type="text"  className="form-control"   required
-                onChange = {(e)=>this.setState({nama_buku:e.target.value})}
-              />
-            </div>
-            <div className="form-group">
-              <label className="control-label">
-                pengarang
-              </label>
-              <input
-                type="text"  className="form-control"   required
-                onChange = {(e)=>this.setState({pengarang:e.target.value})}
-              />
-            </div>
-            
-            {/* <div className="form-group">
-              <label className="control-label">
-                kategori buku
-              </label>
-              <select  onChange = {(e)=>this.setState({id_category:e.target.value})} className="form-control" required>
-              <option >--Pilih kategorinya--</option>
-              
-                {list.map((list, index) =>{
-                  return(
-                      <option key ={index} value={list.id_category}>{list.nama_kategori}</option>
-                      )
-                  })}
-              </select >
-            </div> */}
-            
-            <div className="form-group">
-              <label className="control-label">
-              lokasi
-              </label>
-              <input
-                type="text"  className="form-control"  required
-                onChange = {(e)=>this.setState({lokasi:e.target.value})}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label className="control-label">
-              foto sampul
-              </label>
-              <input
-                type="text"  className="form-control"  required
-                onChange = {(e)=>this.setState({foto_sampul:e.target.value})}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label className="control-label">
-                deskripsi
-              </label>
-              <input type="text"  className="form-control"   required
-                onChange = {(e)=>this.setState({deskripsi:e.target.value})}
-              />
-            </div>
-
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
-              {/* <button type="button" class="btn btn-success"   onClick={insertList.bind(this)}>
-                Simpan
-              </button> */}
-            </div>
-
-          </div>
-        </div>
-      </div> 
-      </form>
       </div>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getdebuk">
-            Open modal
-      </button>
+tambah                </button>
       <Modal/>
       </div>
       </React.Fragment>

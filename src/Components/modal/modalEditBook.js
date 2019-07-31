@@ -1,74 +1,70 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getBuku1, deleteBuku, updateBuku } from '../redux/actions/book'
-import Modal from '../Components/modal/modalAddHist'
+import {getKategory} from "../../redux/actions/kategori";
+import {getBuku1, deleteBuku, updateBuku,postBuku} from "../../redux/actions/book";
 
-import '../../src/index.css'
 
-class Detail extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            books: [],
-            updates: [],
-        };
-        this.toggle = this.toggle.bind(this);
-    }
+class Navbar extends Component {
+//bikin sate kosongan 
+state = {
+  insertBook:[],
+  isiKategori: [],
+  modal: false,
+};
 
-    componentDidMount = async () => {
-      
-        await this.props.dispatch(getBuku1(this.props.match.params.id))
-        this.setState({
-            books:  this.props.book
-        })
-    } 
+//mengolah data yang sudah di tarik dari action 
+  componentDidMount = async () => {
+
+    await this.props.dispatch(getKategory());
+
+    this.setState({
+      //tampung di state
+      isiKategori: this.props.kategori,
+    });
+  };
+  
+  toggle = this.toggle.bind(this);
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+  
+  render() {
     
+    const insertList =async ()=>{
+      this.state.insertBook.push({
+        nama_buku   :this.state.nama_buku,
+        lokasi      :this.state.lokasi,
+        pengarang   :this.state.pengarang,
+        deskripsi   :this.state.deskripsi,
+        foto_sampul :this.state.foto_sampul,
+        id_kategori :this.state.id_category
+      })
 
+      const data = this.state.insertBook
+      this.props.dispatch(postBuku(data));
+      setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
 
-    toggle() {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
     }
 
-
-    render() {
-        //const { books } = this.state
-        const list = this.state.books.ListBuku
-        console.log("isi", this.state.books.ListBuku)
-        return (
-          
-            <div style={{ backgroundColor: '#f2f2f2', marginBottom: '3em' }}>
-           
-                <section>
-                    <img className="cover"  src={list ? list.foto_sampul : ''} alt=".." />
-                    <img className="imgThum" src={list ? list.foto_sampul : ''} alt=".." />
-                </section>
-                <section>
-                    <div className="textDetail container" style={{ backgroundColor: '#f2f2f2', marginTop: '20px' }}>
-                        <h1 className="font" >{list ? list.book_name : ''}</h1>
-                        <h3>{list ? list.pengarang : ''}</h3>
-                        <ul className="tambahandetail">
-                            <li><h5 className="category">{list ? list.nama_kategori : ''}</h5></li>
-                            <li><h5 className="location">{list ? list.lokasi : ''}</h5></li>
-                         
-                            <li><h5 className="status">{list ? list.status_pinjam : ''}</h5></li>
-                        </ul>
-                        <p className="textDesc" >{list ? list.deskripsi : ''}</p>
-
-                    </div>
-                </section>
-            {/* <Modal/> */}
-            <div>
+    const list = this.state.isiKategori.ListKategori || [] ;       //tampung state di variable baru
+    console.log('buk',list)
+    
+    // let array = []
+    // if (list.length>0 ){
+    //   array = list.kategori
+    //   console.log("aray",array)
+    // }
+    return (
+    <div>
       <form action="http://www.w3schools.com">
-      <div class="modal fade" id="uppp">
+      <div class="modal fade" id="wikwik">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h6 class="modal-title">donate book</h6>
+              <h6 class="modal-title">edit book</h6>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -148,16 +144,11 @@ class Detail extends Component {
       </div> 
       </form>
       </div>
-            </div>)
-    }
+    );
+  }
 }
+const mapStateToProps = state => ({ kategori: state.reKategori,postBuku
 
-const mapStateToProps = state => {
-    return {
-        book: state.buku,
-        upadate: state.update,
-        deleteBook:state.buku
-    };
-};
+})
 
-export default connect(mapStateToProps)(Detail);
+export default connect(mapStateToProps)(Navbar);

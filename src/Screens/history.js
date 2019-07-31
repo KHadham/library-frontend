@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import MaterialTable from 'material-table'
 import moment from "moment";
 import Modal from '../Components/modal/modalAddHist'
-import {getHist,deleteHist} from '../redux/actions/history';
+import {getHist,deleteHist,updateHist} from '../redux/actions/history';
 
 class histoooriii extends Component {
   //buat state kosong
@@ -17,18 +17,24 @@ class histoooriii extends Component {
       DataHistory: this.props.history,
     });
   };
-  handledetails = async (id) =>{
-    //this.props.history.push(`/borrowing/details/${id}`)
+
+  Deletetete = async (id) =>{
     await this.props.dispatch(deleteHist(id));
     setTimeout(function(){ if(! alert("data telah di hapus")){window.location.reload();} }, 500);
+  }
+
+  UPPPPdett = async (id,data) =>{
+    await this.props.dispatch(updateHist(id,data));
+    setTimeout(function(){ if(! alert("buku sudah di kembalikan")){window.location.reload();} }, 500);
 
   }
+
   render() {
-    
     console.log("cokk",this.state.DataHistory)
     const historii = this.state.DataHistory;
     console.log('ini dari list bawah ya', historii.ListHistory)
-    const arrayBaru = historii.ListHistory || []
+    const arrayBaru = historii.ListHistory || [] 
+   
     return (
       <div className="container">
         <div className="mt-5">
@@ -42,7 +48,7 @@ class histoooriii extends Component {
             { title: 'location', field: 'c' },
             { title: 'lama pinjam',     field: 'd' },
             { title: 'tanggal pinjam',     field: 'e' },
-            { title: 'tanggal kembali',     field: 'g' },
+            { title: 'tanggal kembali',     field: 'h' },
             
           ]}
           data= {arrayBaru.map((ress, index) =>{
@@ -56,8 +62,9 @@ class histoooriii extends Component {
                       d: ress.lama_pinjam+" hari",
                       e: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
                       g: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
-                      h: ress.tanggal_kembali,
-
+                      h: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY") === "Invalid date" ?  <p style={{color:"red"}}>buku belum di kembalikan</p>
+                      : moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY")
+                      
                     }
                   ) 
                 }
@@ -69,14 +76,14 @@ class histoooriii extends Component {
               rowData => ({
                 icon: 'reply',
                 tooltip: 'Kembalikan Buku',
-                onClick: (event, rowData) => alert("You want to delete " + rowData.a),
+                onClick: (event, rowData) => this.UPPPPdett(rowData.f),
                 disabled: rowData.g !== "Invalid date"
               }),
               {   
                   className: 'btn btn-danger btn-sm',
                   icon: 'delete',
-                  tooltip: 'Detail Peminjaman',
-                  onClick: (event, rowData) =>this.handledetails(rowData.f)
+                  tooltip: 'Hapus',
+                  onClick: (event, rowData) => this.Deletetete(rowData.f)
                 }
               ]} 
         />
