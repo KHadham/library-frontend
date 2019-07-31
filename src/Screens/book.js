@@ -123,7 +123,7 @@ class Weapon extends Component {
             {   
               className: 'btn btn-danger btn-sm',
               icon: 'delete',
-              tooltip: 'Detail Peminjaman',
+              tooltip: 'Delete',
               onClick: (event, rowData) =>this.handledetails(rowData.f)
             }
           ]}  

@@ -48,7 +48,7 @@ const buku = (state = initialState, action) => {
           isFulfilled: true,
           ListHistory: action.payload.data
         };
-        /////////////GET1//////////////////////////////////////////
+/////////////GET1//////////////////////////////////////////
     case 'GET_HISTORY1_PENDING': // in case when loading post data
     return {
       ...state,
@@ -63,6 +63,27 @@ const buku = (state = initialState, action) => {
           isRejected: true,
       }
   case 'GET_HISTORY1_FULFILLED': // in case successfuly post data
+      return {
+          ...state,
+          isLoading: false,
+          isFulFilled: true,
+          ListHistory: action.payload.data,
+      }
+/////////////GET1 asli//////////////////////////////////////////
+    case 'GET_HISTORY01_PENDING': // in case when loading post data
+    return {
+      ...state,
+      isLoading: true,
+      isFulFilled: false,
+      isRejected: false
+      }
+  case 'GET_HISTORY01_REJECTED': // in case error network/else
+      return {
+          ...state,
+          isLoading: false,
+          isRejected: true,
+      }
+  case 'GET_HISTORY01_FULFILLED': // in case successfuly post data
       return {
           ...state,
           isLoading: false,

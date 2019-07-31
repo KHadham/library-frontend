@@ -4,6 +4,8 @@ import MaterialTable from 'material-table'
 import moment from "moment";
 import Modal from '../Components/modal/modalAddHist'
 import {getHist,deleteHist,updateHist} from '../redux/actions/history';
+import { Link } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip';
 
 class histoooriii extends Component {
   //buat state kosong
@@ -34,13 +36,27 @@ class histoooriii extends Component {
     const historii = this.state.DataHistory;
     console.log('ini dari list bawah ya', historii.ListHistory)
     const arrayBaru = historii.ListHistory || [] 
-   
+
     return (
       <div className="container">
         <div className="mt-5">
         <MaterialTable
           title="riwayat peminjaman"
           columns={[
+            {
+              title: 'Avatar',
+              field: 'e',
+              render: rowData => (
+                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                //   Open modal
+                // </button>
+                <Link to={`/history/${rowData.f}`} >
+                  <Tooltip title="Detail User">
+                  <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
+                  </Tooltip>
+                </Link>
+              ),
+            },
             { title: 'No',       field: 'f' },
             { title: 'nama peminjam',   field: 'b' },
             { title: 'buku yang di pinjam',    field: 'a' },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getUser1} from '../redux/actions/user'
-import { getHist1} from '../redux/actions/history'
+import { getHist1asli} from '../redux/actions/history'
 import MaterialTable from 'material-table'
 import { Link } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip';
@@ -18,33 +18,29 @@ class UsD extends Component {
             historiia: [],
             //upload:[],
         };
-        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount = async () => {  // LOAD DATANYA DULU DI SINI
-      const ID = this.props.match.params.iduser
+      const ID = this.props.match.params.idHist
       
         await this.props.dispatch(getUser1(ID))
-        await this.props.dispatch(getHist1(ID))
+        await this.props.dispatch(getHist1asli(ID))
 
         this.setState({
           useerStet:  this.props.usserProp,
           historiia:  this.props.historih
         })
       } 
-    toggle() {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
-    }
+      
     render() {
         const arrayBaru = this.state.historiia.ListHistory
         const stetEdit = this.state.useerStet.ListUser || []
-        console.log("user",stetEdit)
+        console.log("aray baru", arrayBaru)
         return (
           <div >
-{/*///////////////DETAIL USER START////////////////////////////  */}
-            <div>
+          {/*///////////////DETAIL USER START////////////////////////////  */}
+          <div>
+          
               <table style={{ marginLeft: '30px', marginTop: '1em' }}>
                 <tr>
                   <th style={{ paddingRight: '40px' }}> Name</th>
@@ -77,26 +73,41 @@ class UsD extends Component {
                 </tr>
               </table>
             </div>
-{/*///////////////DETAIL USER END////////////////////////////  */}
-
 {/* //////////// TABLE START ////////////  */}
               <div className="container">
                 <div className="mt-5">
                 <MaterialTable
-                  title="Data ussr"
+                  title="Data Return Book "
                   columns={[
                     {
-              title: 'Avatar',
+              title: '',
               field: 'e',
               render: rowData => (
                 // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 //   Open modal
                 // </button>
+                rowData.e === null ? 
                 <Link to={`/history/${rowData.f}`} >
                   <Tooltip title="Detail User">
                   <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
                   </Tooltip>
-                </Link>
+                </Link> :
+                <img style = {{width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/defaulticon/icons/png/256x256/check.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
+              ),
+            },
+            {
+              title: '',
+              field: 'g',
+              render: rowData => (
+                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                //   Open modal
+                // </button>
+                <Link to={`/buku/${rowData.h}`} >
+                  <Tooltip title="Detail User">
+                  <img style = {{width:"80px"}} src={rowData.g} data-toggle="modal" data-target="#detailPmj"alt="" ></img>
+                  </Tooltip>
+                </Link> 
+                
               ),
             },
                     { title: 'nama buku',    field: 'a' },
@@ -109,14 +120,18 @@ class UsD extends Component {
                     return(
                       {
                         f: ress.id,
-                        a: ress.nama_buku == null ? "anda" :ress.nama_buku,
-                        b: ress.lama_pinjam == null ? "belum" :ress.lama_pinjam ,
+                        a: ress.nama_buku == null ? "no data" :ress.nama_buku,
+                        b: ress.lama_pinjam == null ? "no data" :ress.lama_pinjam + " hari" ,
                         c: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY") === "Invalid date" ?
                           <p>pernah</p> 
                           : moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
                         d: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY") === "Invalid date" ?
                           <p style={{color:"red"}}>buku belum kembali</p> 
                           : moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
+                        e: ress.tanggal_kembali  ,
+                        g: ress.foto_sampul  ,
+                        h: ress.id_buku  ,
+
                             }
                           ) 
                         }
