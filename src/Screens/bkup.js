@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getUser1} from '../redux/actions/user'
 import { getHist1asli} from '../redux/actions/history'
 import MaterialTable from 'material-table'
 import { Link } from 'react-router-dom'
@@ -14,33 +13,34 @@ class UsD extends Component {
         super(props);
         this.state = {    //BUAT STATE DULU BUAT PENAMPUNGAN NANTI
             modal: false,
-            useerStet: [],
             historiia: [],
             //upload:[],
         };
+        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount = async () => {  // LOAD DATANYA DULU DI SINI
       const ID = this.props.match.params.idHist
       
-        await this.props.dispatch(getUser1(ID))
         await this.props.dispatch(getHist1asli(ID))
 
         this.setState({
-          useerStet:  this.props.usserProp,
           historiia:  this.props.historih
         })
       } 
-      
+    toggle() {
+        this.setState(prevState => ({
+            modal: !prevState.modal
+        }));
+    }
     render() {
-        const arrayBaru = this.state.historiia.ListHistory
-        const stetEdit = this.state.useerStet.ListUser || []
-        console.log("aray baru", arrayBaru)
+        const arrayBaru = this.state.historiia.ListHistory || []
+        const stetEdit = arrayBaru[0] || []
+        console.log("hst",stetEdit.nama_buku)
         return (
           <div >
           {/*///////////////DETAIL USER START////////////////////////////  */}
           <div>
-          
               <table style={{ marginLeft: '30px', marginTop: '1em' }}>
                 <tr>
                   <th style={{ paddingRight: '40px' }}> Name</th>
@@ -74,7 +74,7 @@ class UsD extends Component {
               </table>
             </div>
 {/* //////////// TABLE START ////////////  */}
-              <div className="container">
+              {/* <div className="container">
                 <div className="mt-5">
                 <MaterialTable
                   title="Data Return Book "
@@ -147,7 +147,7 @@ class UsD extends Component {
                     ]} 
                 />
               </div>
-            </div>
+            </div> */}
 {/* //////////// TABLE END ////////////  */}
 
             </div>)

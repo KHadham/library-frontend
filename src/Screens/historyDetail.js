@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getUser1} from '../redux/actions/user'
-import { getHist1asli} from '../redux/actions/history'
-import MaterialTable from 'material-table'
-import { Link } from 'react-router-dom'
-import Tooltip from '@material-ui/core/Tooltip';
+import { getHist1asli,updateHist} from '../redux/actions/history'
 import moment from "moment";
 import '../../src/index.css'
 
@@ -14,47 +10,83 @@ class UsD extends Component {
         super(props);
         this.state = {    //BUAT STATE DULU BUAT PENAMPUNGAN NANTI
             modal: false,
-            useerStet: [],
             historiia: [],
-            //upload:[],
+						updateS: [],
         };
+        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount = async () => {  // LOAD DATANYA DULU DI SINI
       const ID = this.props.match.params.idHist
       
-        await this.props.dispatch(getUser1(ID))
         await this.props.dispatch(getHist1asli(ID))
 
         this.setState({
-          useerStet:  this.props.usserProp,
           historiia:  this.props.historih
         })
       } 
-      
+    toggle() {
+        this.setState(prevState => ({
+            modal: !prevState.modal
+        }));
+    }
+    // changeHandle = (e) => { //MENERIMA PERUBAHAN PADA FORM
+    //   const name = e.currentTarget.name
+    //   const val = e.currentTarget.value
+
+    //   this.state.bookS.ListBuku[name] = val //NIMPA STATE DENGAN DATA YANG BARU "val"
+    //   this.setState({ bookS: this.state.bookS }) //TERUS DI SET STATE NYA
+		// }
     render() {
-        const arrayBaru = this.state.historiia.ListHistory
-        const stetEdit = this.state.useerStet.ListUser || []
-        console.log("aray baru", arrayBaru)
+      const editList = async ()=>{
+				this.state.updateS.push({
+					id_buku:stetEdit.id_buku,
+					
+				})
+	
+				const ID = this.props.match.params.idHist
+        //PROSES UPLOAD NYA 
+        await this.props.dispatch(updateHist(ID,(this.state.updateS[0]) ))
+          
+        //reload setelah 500 mili detil setelah submit 
+        setTimeout(function(){ if(! alert("terimakasih telah meminjam")){window.location.reload();} }, 500);
+			}
+        const arrayBaru = this.state.historiia.ListHistory || []
+        const stetEdit = arrayBaru[0] || []
+        const tanggal_pinjam = moment(stetEdit.tanggal_pinjam).dayOfYear()
+        const tanggal_kembali = stetEdit.tanggal_kembali == null ?
+          moment(new Date()).dayOfYear() :
+          moment(stetEdit.tanggal_kembali).dayOfYear()
+        const selisih_hari = tanggal_kembali - tanggal_pinjam
+        const sisahari = stetEdit.lama_pinjam- selisih_hari
+        const denda = (selisih_hari - stetEdit.lama_pinjam) * 1500
+        console.log("hst",selisih_hari)
         return (
+          <div  style={{width:"100%",backgroundImage: `url(${stetEdit.foto_sampul})`}} >
           <div >
           {/*///////////////DETAIL USER START////////////////////////////  */}
-          <div>
+          <div  className="container">
           
-              <table style={{ marginLeft: '30px', marginTop: '1em' }}>
-                <tr>
-                  <th style={{ paddingRight: '40px' }}> Name</th>
-                  <th>:  {stetEdit.fullname}</th>
-                </tr>
-                <tr>
-                  <th>No Telpon</th>
-                  <th>:  {stetEdit.telepon}</th>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <th>:  {stetEdit.email}</th>
-                </tr>
-                <tr>
+              <div  className="mt-2 card">
+              <div  class="row card-body">
+                    <div class="col-md-6">
+                    <h1>loan summary </h1>
+                        <table class="table table-borderless">
+                          
+                          <tbody>
+                            <tr>
+                              <th style={{ paddingRight: '40px' }}> Name</th>
+                              <th>:  {stetEdit.fullname}</th>
+                            </tr>
+                            <tr>
+                              <th>No Telpon</th>
+                              <th>:  {stetEdit.telepon}</th>
+                            </tr>
+                            <tr>
+                              <th>Email</th>
+                              <th>:  {stetEdit.email}</th>
+                            </tr>
+                            <tr>
                   <th>Status</th>
                   <th>:  {stetEdit.status}</th>
                 </tr>
@@ -66,90 +98,49 @@ class UsD extends Component {
                   <th>background</th>
                   <th>:  {stetEdit.background}</th>
                 </tr>
-                <tr>
-                  <th>
-                  <a data-toggle="modal" data-target="#MeditUser" className="button"><input type="submit" class="btn btn-info" value="edit"/></a>
-                  </th>
+                          </tbody>
+                        </table>
+                        { stetEdit.tanggal_kembali !== null ? 
+                          <button type="button" disabled class="btn btn-success">Buku sudah kembali</button> :
+                          <button type="button" onClick={editList.bind(this)} class="btn btn-primary">kembalikan buku</button>
+                         }
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                          <tbody>
+                          <tr>
+                  <th></th>
+                  <th style={{ paddingRight: '10%' }}><img src={stetEdit.foto_sampul} style={{ width: '150px'}} /></th>
                 </tr>
-              </table>
-            </div>
-{/* //////////// TABLE START ////////////  */}
-              <div className="container">
-                <div className="mt-5">
-                <MaterialTable
-                  title="Data Return Book "
-                  columns={[
-                    {
-              title: '',
-              field: 'e',
-              render: rowData => (
-                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                //   Open modal
-                // </button>
-                rowData.e === null ? 
-                <Link to={`/history/${rowData.f}`} >
-                  <Tooltip title="Detail User">
-                  <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-                  </Tooltip>
-                </Link> :
-                <img style = {{width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/defaulticon/icons/png/256x256/check.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-              ),
-            },
-            {
-              title: '',
-              field: 'g',
-              render: rowData => (
-                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                //   Open modal
-                // </button>
-                <Link to={`/buku/${rowData.h}`} >
-                  <Tooltip title="Detail User">
-                  <img style = {{width:"80px"}} src={rowData.g} data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-                  </Tooltip>
-                </Link> 
+                          <tr>
+                              <th style={{ paddingRight: '40px' }}> nama buku</th>
+                              <th>:  {stetEdit.nama_buku}</th>
+                            </tr>
+                            <tr>
+                              <th>tanggal_pinjam</th>
+                              <th>:  { moment(stetEdit.tanggal_pinjam).format("dddd,DD-MM-YYYY")}</th>
+                            </tr>
+                            <tr>
+                              <th>lama_pinjam</th>
+                              <th>:  {stetEdit.lama_pinjam} hari</th>
+                            </tr>
+                            <tr>
+                              <th>sisa hari</th>
+                              <th>:  { sisahari + " hari"}</th>
+                            </tr>
+                            <tr>
+                  <th>Denda</th>
+                  <th>:  {denda < 0 ? "tidak ada denda" : denda + " rupiah" } </th>
+                </tr>
                 
-              ),
-            },
-                    { title: 'nama buku',    field: 'a' },
-                    { title: 'lama pinjam',   field: 'b' },
-                    { title: 'tanggal pinjam', field: 'c' },
-                    { title: 'tanggal kembali',     field: 'd' },
-                  ]}
-                  
-                  data= {arrayBaru && arrayBaru.length > 0 && arrayBaru.map((ress, index) =>{
-                    return(
-                      {
-                        f: ress.id,
-                        a: ress.nama_buku == null ? "no data" :ress.nama_buku,
-                        b: ress.lama_pinjam == null ? "no data" :ress.lama_pinjam + " hari" ,
-                        c: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p>pernah</p> 
-                          : moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
-                        d: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p style={{color:"red"}}>buku belum kembali</p> 
-                          : moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
-                        e: ress.tanggal_kembali  ,
-                        g: ress.foto_sampul  ,
-                        h: ress.id_buku  ,
-
-                            }
-                          ) 
-                        }
-                      )
-                    }       
-                    actions={ [
-                      rowData => ({
-                        icon: 'reply',
-                        tooltip: 'Kembalikan Buku',
-                        onClick: (event, rowData) => alert("You want to delete " + rowData.a),
-                        disabled: rowData.d !== "Invalid date"
-                      }),
-                    ]} 
-                />
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
               </div>
             </div>
-{/* //////////// TABLE END ////////////  */}
-
             </div>)
     }
 }
