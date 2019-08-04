@@ -31,15 +31,15 @@ class Weapon extends Component {
   }
 
   render() {
-    function text(text) {
-      if (text.length > 140) {
-          let textSplit = text.substr(0, 140)
-          return `${textSplit} ...`
-      } else {
-          let textSplit = text
-          return `${textSplit}`
-      }
-  }
+  //   function text(text) {
+  //     if (text.length > 140) {
+  //         let textSplit = text.substr(0, 140)
+  //         return `${textSplit} ...`
+  //     } else {
+  //         let textSplit = text
+  //         return `${textSplit}`
+  //     }
+  // }
   //const list = this.state.isiKategori.ListKategori || [] ; 
     console.log("cokk",this.props)
     const list_kategori = this.state.isiBukunya;
@@ -48,6 +48,8 @@ class Weapon extends Component {
     return (
       <React.Fragment>
       <div className="container">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getdebuk">
+tambah                </button>
         <div className="mt-3">
         <MaterialTable
           title="Data Buku"
@@ -94,7 +96,8 @@ class Weapon extends Component {
                       a: ress.nama_buku,
                       b: ress.pengarang,
                       c: ress.lokasi,
-                      d: text(ress.deskripsi),
+                      // d: text(ress.deskripsi),
+                      d: ress.deskripsi,
                       e:ress.foto_sampul,
                       g:ress.status_pinjam,
                     }
@@ -131,8 +134,7 @@ class Weapon extends Component {
       </div>
       <div>
       </div>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getdebuk">
-tambah                </button>
+     
       <Modal/>
       </div>
       </React.Fragment>

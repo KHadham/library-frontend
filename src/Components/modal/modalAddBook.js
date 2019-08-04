@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {getKategory} from "../../redux/actions/kategori";
 import {postBuku} from "../../redux/actions/book";
-
-
+import axios from 'axios';
 
 class Navbar extends Component {
 //bikin sate kosongan 
-state = {
-  insertBook:[],
-  isiKategori: [],
-  modal: false,
-};
+constructor(props) {
+  super(props);
+  this.state = {
+    insertBook:[],
+    isiKategori: [],
+    modal: false,
+    selectedFile: null
+  };
+ 
+}
+// state = {
+//   insertBook:[],
+//   isiKategori: [],
+//   modal: false,
+//   selectedFile: null
+// };
 
 //mengolah data yang sudah di tarik dari action 
   componentDidMount = async () => {
@@ -21,6 +31,7 @@ state = {
     this.setState({
       //tampung di state
       isiKategori: this.props.kategori,
+      
     });
   };
   
@@ -32,31 +43,44 @@ state = {
   }
   
   render() {
-    
-    const insertList =async ()=>{
-      this.state.insertBook.push({
-        nama_buku   :this.state.nama_buku,
-        lokasi      :this.state.lokasi,
-        pengarang   :this.state.pengarang,
-        deskripsi   :this.state.deskripsi,
-        foto_sampul :this.state.foto_sampul,
-        id_kategori :this.state.id_category
+    const onChangeHandler=event=>{
+      this.setState({
+        selectedFile: event.target.files[0],
+        loaded: 0,
       })
-
-      const data = this.state.insertBook
-      this.props.dispatch(postBuku(data));
-      setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
-
     }
 
-    const list = this.state.isiKategori.ListKategori || [] ;       //tampung state di variable baru
-    console.log('buk',list)
-    
-    // let array = []
-    // if (list.length>0 ){
-    //   array = list.kategori
-    //   console.log("aray",array)
+    // const insertList =async ()=>{
+    //   const data = new FormData() 
+    //   data.append('foto_sampul', this.state.selectedFile)
+    //   // this.state.insertBook.push({
+    //   //   nama_buku   :this.state.nama_buku,
+    //   //   lokasi      :this.state.lokasi,
+    //   //   pengarang   :this.state.pengarang,
+    //   //   deskripsi   :this.state.deskripsi,
+    //   //   foto_sampul :this.state.foto_sampul,
+    //   //   id_kategori :this.state.id_category
+    //   // })
+    //   //const data = this.state.insertBook
+    //   this.props.dispatch(postBuku(data));
+    //   //setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
     // }
+    const insertList = () => {
+      const data = new FormData()
+        data.append('foto_sampul', this.state.selectedFile ||  this.state.foto_sampul)
+        data.append('nama_buku', this.state.nama_buku)
+        data.append('pengarang', this.state.pengarang)
+        data.append('lokasi', this.state.lokasi)
+        data.append('id_kategori', this.state.id_category)
+        data.append('deskripsi', this.state.deskripsi)
+
+        this.props.dispatch(postBuku(data));
+        setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 200);
+   }
+    
+  
+    const list = this.state.isiKategori.ListKategori || [] ;       //tampung state di variable baru
+    console.log('foto',this.state.selectedFile)
     return (
     <div>
       <form action="http://www.w3schools.com">
@@ -111,7 +135,7 @@ state = {
               />
             </div>
             
-            <div className="form-group">
+            {/* <div className="form-group">
               <label className="control-label">
               foto sampul
               </label>
@@ -119,13 +143,23 @@ state = {
                 type="text"  className="form-control"  required
                 onChange = {(e)=>this.setState({foto_sampul:e.target.value})}
               />
+            </div> */}
+            
+            <div className="form-group">
+              <label className="control-label">
+              foto sampul
+              </label>
+              <input
+                type="file"  className="form-control"  required
+                onChange = {onChangeHandler}
+              />
             </div>
             
             <div className="form-group">
               <label className="control-label">
                 deskripsi
               </label>
-              <input type="text"  className="form-control"   required
+              <input type="text" onkeydown ="disabled"  className="form-control"   required
                 onChange = {(e)=>this.setState({deskripsi:e.target.value})}
               />
             </div>

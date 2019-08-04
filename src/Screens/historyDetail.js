@@ -53,6 +53,7 @@ class UsD extends Component {
 			}
         const arrayBaru = this.state.historiia.ListHistory || []
         const stetEdit = arrayBaru[0] || []
+
         const tanggal_pinjam = moment(stetEdit.tanggal_pinjam).dayOfYear()
         const tanggal_kembali = stetEdit.tanggal_kembali == null ?
           moment(new Date()).dayOfYear() :
@@ -127,7 +128,7 @@ class UsD extends Component {
                             </tr>
                             <tr>
                               <th>sisa hari</th>
-                              <th>:  { sisahari + " hari"}</th>
+                              <th>:  { sisahari <0? "sisa waktu habis" : sisahari + " hari"}</th>
                             </tr>
                             <tr>
                   <th>Denda</th>
