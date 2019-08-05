@@ -122,6 +122,13 @@ class UsD extends Component {
                               <th>tanggal_pinjam</th>
                               <th>:  { moment(stetEdit.tanggal_pinjam).format("dddd,DD-MM-YYYY")}</th>
                             </tr>
+                            {stetEdit.tanggal_kembali !== null ? 
+                              <tr>
+                                <th>tanggal_kembali</th>
+                                <th>:  { moment(stetEdit.tanggal_kembali).format("dddd,DD-MM-YYYY")}</th>
+                              </tr>
+                              : <a></a>
+                            }
                             <tr>
                               <th>lama_pinjam</th>
                               <th>:  {stetEdit.lama_pinjam} hari</th>

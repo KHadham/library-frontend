@@ -124,7 +124,7 @@ class Detail extends Component {
 										foto sampul
 										</label>
 										<input
-											type="text" name="foto_sampul" value={list.foto_sampul} className="form-control"  required
+											type="file" name="foto_sampul"  className="form-control"  required
 											onChange =  {this.changeHandle}
 										/>
 									</div>

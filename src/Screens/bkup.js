@@ -1,164 +1,125 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { getHist1asli} from '../redux/actions/history'
-import MaterialTable from 'material-table'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+// import Posts from '../Components/posts';
+// import Pagination from '../Components/Pagination';
 import { Link } from 'react-router-dom'
-import Tooltip from '@material-ui/core/Tooltip';
-import moment from "moment";
-import '../../src/index.css'
+import {getBuku} from '../redux/actions/book';
+import {getKategory} from '../redux/actions/kategori';
+import {deleteBuku} from '../redux/actions/book';
+import Modal from '../Components/modal/modalAddBook';
 
-class UsD extends Component {
+function text(text) {
+  if (text.length > 140) {
+      let textSplit = text.substr(0, 140)
+      return `${textSplit} ...`
+  } else {
+      let textSplit = text
+      return `${textSplit}`
+  }
+}
+class Weapon extends Component {
+  //buat state kosong
+  state = {
+    isiBukunya: [],
+    isiKategori:[]
+  };
 
-    constructor(props) {
-        super(props);
-        this.state = {    //BUAT STATE DULU BUAT PENAMPUNGAN NANTI
-            modal: false,
-            historiia: [],
-            //upload:[],
-        };
-        this.toggle = this.toggle.bind(this);
-    }
+  componentDidMount = async () => {
+    await this.props.dispatch(getBuku());
+    await this.props.dispatch(getKategory());
 
-    componentDidMount = async () => {  // LOAD DATANYA DULU DI SINI
-      const ID = this.props.match.params.idHist
+    this.setState({
+      isiBukunya: this.props.buku,
+      isiKategori: this.props.kategori,
+    });
+  };
+
+  handledetails = async (id) =>{
+    //this.props.history.push(`/borrowing/details/${id}`)
+    await this.props.dispatch(deleteBuku(id));
+    setTimeout(function(){ if(! alert("data telah di hapus")){window.location.reload();} }, 500);
+  }
+
+  render() {
+    function text(text) {
+      if (text.length > 140) {
+          let textSplit = text.substr(0, 140)
+          return `${textSplit} ...`
+      } else {
+          let textSplit = text
+          return `${textSplit}`
+      }
+  }
+  //const list = this.state.isiKategori.ListKategori || [] ; 
+    //console.log("cokk",text())
+    const list_kategori = this.state.isiBukunya;
+    console.log('ini dari list bawah ya', list_kategori.ListBuku)
+    const arrayBaru = list_kategori.ListBuku || []
+    return (
+      <React.Fragment>
+      <div className="container">
+      <button style={{ marginTop: '20px' }} type="button" class="btn btn-primary" data-toggle="modal" data-target="#getdebuk">tambah</button>
       
-        await this.props.dispatch(getHist1asli(ID))
-
-        this.setState({
-          historiia:  this.props.historih
-        })
-      } 
-    toggle() {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
-    }
-    render() {
-        const arrayBaru = this.state.historiia.ListHistory || []
-        const stetEdit = arrayBaru[0] || []
-        console.log("hst",stetEdit.nama_buku)
-        return (
-          <div >
-          {/*///////////////DETAIL USER START////////////////////////////  */}
-          <div>
-              <table style={{ marginLeft: '30px', marginTop: '1em' }}>
-                <tr>
-                  <th style={{ paddingRight: '40px' }}> Name</th>
-                  <th>:  {stetEdit.fullname}</th>
-                </tr>
-                <tr>
-                  <th>No Telpon</th>
-                  <th>:  {stetEdit.telepon}</th>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <th>:  {stetEdit.email}</th>
-                </tr>
-                <tr>
-                  <th>Status</th>
-                  <th>:  {stetEdit.status}</th>
-                </tr>
-                <tr>
-                  <th>alamat</th>
-                  <th>:  {stetEdit.alamat}</th>
-                </tr>
-                <tr>
-                  <th>background</th>
-                  <th>:  {stetEdit.background}</th>
-                </tr>
-                <tr>
-                  <th>
-                  <a data-toggle="modal" data-target="#MeditUser" className="button"><input type="submit" class="btn btn-info" value="edit"/></a>
-                  </th>
-                </tr>
-              </table>
+      <div className="container" >
+        {
+          <div style={{ float: 'right' }}>
+            {/* <Input placeholder="Search Books Here..." className="searcHome" onChange={(e) => this.searchBook({ search: e.target.value })} /> */}
+            <div style={{ float: 'right', marginTop: '-95px' }}>
             </div>
-{/* //////////// TABLE START ////////////  */}
-              {/* <div className="container">
-                <div className="mt-5">
-                <MaterialTable
-                  title="Data Return Book "
-                  columns={[
-                    {
-              title: '',
-              field: 'e',
-              render: rowData => (
-                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                //   Open modal
-                // </button>
-                rowData.e === null ? 
-                <Link to={`/history/${rowData.f}`} >
-                  <Tooltip title="Detail User">
-                  <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-                  </Tooltip>
-                </Link> :
-                <img style = {{width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/defaulticon/icons/png/256x256/check.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-              ),
-            },
-            {
-              title: '',
-              field: 'g',
-              render: rowData => (
-                // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                //   Open modal
-                // </button>
-                <Link to={`/buku/${rowData.h}`} >
-                  <Tooltip title="Detail User">
-                  <img style = {{width:"80px"}} src={rowData.g} data-toggle="modal" data-target="#detailPmj"alt="" ></img>
-                  </Tooltip>
-                </Link> 
-                
-              ),
-            },
-                    { title: 'nama buku',    field: 'a' },
-                    { title: 'lama pinjam',   field: 'b' },
-                    { title: 'tanggal pinjam', field: 'c' },
-                    { title: 'tanggal kembali',     field: 'd' },
-                  ]}
-                  
-                  data= {arrayBaru && arrayBaru.length > 0 && arrayBaru.map((ress, index) =>{
-                    return(
-                      {
-                        f: ress.id,
-                        a: ress.nama_buku == null ? "no data" :ress.nama_buku,
-                        b: ress.lama_pinjam == null ? "no data" :ress.lama_pinjam + " hari" ,
-                        c: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p>pernah</p> 
-                          : moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
-                        d: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p style={{color:"red"}}>buku belum kembali</p> 
-                          : moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
-                        e: ress.tanggal_kembali  ,
-                        g: ress.foto_sampul  ,
-                        h: ress.id_buku  ,
+            <div className="Col md-12 layoutStyle" style={{ marginTop: '50px' }} >
+              {
+                arrayBaru &&
+                arrayBaru.length > 0 &&
+                arrayBaru.map((entry, index) => {
+                  return (
+                    <div key={index} className="Col md-8 boxs">
+                      <Link to={`buku/${entry.id_library}`}>
+                        <div>
+                        {entry.status_pinjam == "tersedia" ? 
+                          <p className="statusAda" >{entry.status_pinjam}</p> : 
+                          <p className="statusView">{entry.status_pinjam}</p>
+                          }
+                            {/* <p className="statusView">{entry.status_pinjam}</p> */}
+                            <img className="adjuctimgs" src={entry.foto_sampul} alt="..." />
+                            <p className="catView">[ {entry.nama_kategori}]</p>
+                            <p className="textViews">{entry.nama_buku}</p>
+                        </div>
+                      </Link>
+                      <button type="button" class="btn btn-danger btn-sm"  onClick={(event, rowData) =>this.handledetails(entry.id_library)}> hapus </button>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+        }
+      </div>
+     
+      <Modal/>
+     
+      </div>
+      <div class="center">
+        <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#" >2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+        </div>
+      </div>
+      </React.Fragment>
 
-                            }
-                          ) 
-                        }
-                      )
-                    }       
-                    actions={ [
-                      rowData => ({
-                        icon: 'reply',
-                        tooltip: 'Kembalikan Buku',
-                        onClick: (event, rowData) => alert("You want to delete " + rowData.a),
-                        disabled: rowData.d !== "Invalid date"
-                      }),
-                    ]} 
-                />
-              </div>
-            </div> */}
-{/* //////////// TABLE END ////////////  */}
-
-            </div>)
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => {
-    return {
-        usserProp: state.reUser,
-        historih: state.reHistory,
-    };
+  return {
+    buku: state.reBuku,
+  };
 };
 
-export default connect(mapStateToProps)(UsD);
+export default connect(mapStateToProps)(Weapon);
