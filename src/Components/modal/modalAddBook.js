@@ -31,11 +31,11 @@ constructor(props) {
     this.setState({
       //tampung di state
       isiKategori: this.props.kategori,
-      
     });
   };
   
   toggle = this.toggle.bind(this);
+
   toggle() {
     this.setState(prevState => ({
       modal: !prevState.modal

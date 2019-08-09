@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/buku');
+      const res = await axios.get('https://wikwik123.herokuapp.com/buku');
       setPosts(res.data);
       setLoading(false);
     };
