@@ -60,7 +60,7 @@ constructor(props) {
         data.append('deskripsi', this.state.deskripsi)
 
         this.props.dispatch(postBuku(data));
-        setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.href('/');} }, 200);
+        setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 200);
    }
     
   
