@@ -40,7 +40,7 @@ class App extends Component {
         <div>
           <Router>
             <Nav />
-            <Route exact path="/" component={HIST} />
+            <Route exact path="/" component={BUUKUU} />
             
             <Route exact path={'/buku'} component={BUUKUU} />
             <Route  exact path={'/buku/:idd'} component={BuKuDeTaIl} />
