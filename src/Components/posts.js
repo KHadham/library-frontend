@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import {deleteBuku} from '../redux/actions/book';
 
 const Posts = ({ posts, loading }) => {
+  
   if (loading) {
     return <h2>Loading...</h2>;
   }
-
   return (
         
 <div className="container" >

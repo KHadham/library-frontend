@@ -8,10 +8,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import moment from "moment";
 import '../../src/index.css'
 
-const dataStorage = JSON.parse(localStorage.getItem("data")) || "" 
+const dataStorage = JSON.parse(localStorage.getItem("data"))  || ""
 
 class UsD extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {    //BUAT STATE DULU BUAT PENAMPUNGAN NANTI
@@ -24,7 +24,7 @@ class UsD extends Component {
     }
 
     componentDidMount = async () => {  // LOAD dataStorage D JSON.parse(localStorageULU.getItem(data))  DI SINI
-      const ID = this.props.match.params.iduser
+      const ID = dataStorage.id_user
       
         await this.props.dispatch(getUser1(ID))
         await this.props.dispatch(getHist1(ID))
@@ -42,37 +42,35 @@ class UsD extends Component {
     render() {
         const arrayBaru = this.state.historiia.ListHistory
         const stetEdit = this.state.useerStet.ListUser || []
-        console.log("user",stetEdit)
+        console.log("user",dataStorage.foto)
         return (
           <div >
 {/*///////////////DETAIL USER START////////////////////////////  */}
-
-      {       dataStorage.status && dataStorage.status === "admin"  ?
-              <div>
+            <div className="row">
               <table style={{ marginLeft: '30px', marginTop: '1em' }}>
                 <tr>
                   <th style={{ paddingRight: '40px' }}> Name</th>
-                  <th>:  {stetEdit.fullname}</th>
+                  <th>:  {dataStorage.fullname}</th>
                 </tr>
                 <tr>
                   <th>No Telpon</th>
-                  <th>:  {stetEdit.telepon}</th>
+                  <th>:  {dataStorage.telepon}</th>
                 </tr>
                 <tr>
                   <th>Email</th>
-                  <th>:  {stetEdit.email}</th>
+                  <th>:  {dataStorage.email}</th>
                 </tr>
                 <tr>
                   <th>Status</th>
-                  <th>:  {stetEdit.status}</th>
+                  <th>:  {dataStorage.status}</th>
                 </tr>
                 <tr>
                   <th>alamat</th>
-                  <th>:  {stetEdit.alamat}</th>
+                  <th>:  {dataStorage.alamat}</th>
                 </tr>
                 <tr>
                   <th>background</th>
-                  <th>:  {stetEdit.background}</th>
+                  <th>:  {dataStorage.background}</th>
                 </tr>
                 <tr>
                   <th>
@@ -80,29 +78,35 @@ class UsD extends Component {
                   </th>
                 </tr>
               </table>
-            </div>
-            :
-            <h1>COOOK</h1>
-            }
+              <div class="topnav-right">
+              <img style={{ marginLeft: '1000px',width:'100px', marginTop: '1em' }} src={dataStorage.foto} data-toggle="modal" data-target="#detailPmj"alt="" ></img>
 
+              </div>
+
+            </div>
+{/*///////////////DETAIL USER END////////////////////////////  */}
+
+{/* //////////// TABLE START ////////////  */}
               <div className="container">
                 <div className="mt-5">
-                
                 <MaterialTable
-                  title="Data ussr"
+                  title="Data user"
                   columns={[
                     {
-              title: 'Avatar',
+              title: '',
               field: 'e',
               render: rowData => (
                 // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 //   Open modal
                 // </button>
+               
                 <Link to={`/history/${rowData.f}`} >
                   <Tooltip title="Detail User">
-                  <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
+                    <img style = {{width:"30px"}} src="https://image.flaticon.com/icons/png/512/1/1755.png" data-toggle="modal" data-target="#detailPmj"alt="" ></img>
                   </Tooltip>
-                </Link>
+                </Link> 
+                
+                
               ),
             },
                     { title: 'nama buku',    field: 'a' },
@@ -116,12 +120,12 @@ class UsD extends Component {
                       {
                         f: ress.id,
                         a: ress.nama_buku == null ? "belum pernah pinjam" :ress.nama_buku,
-                        b: ress.lama_pinjam == null ? "belum pernah pinjam" :ress.lama_pinjam ,
+                        b: ress.lama_pinjam == null ? "belum pernah pinjam" :ress.lama_pinjam + " hari" ,
                         c: moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p>pernah</p> 
+                          <p>belum pernah pinjam</p> 
                           : moment(ress.tanggal_pinjam).format("dddd,DD-MM-YYYY"),
                         d: moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY") === "Invalid date" ?
-                          <p style={{color:"red"}}>buku belum kembali</p> 
+                          <p style={{color:"red"}}>buku belom kembali </p> 
                           : moment(ress.tanggal_kembali).format("dddd,DD-MM-YYYY"),
                             }
                           ) 
@@ -139,7 +143,7 @@ class UsD extends Component {
                 />
               </div>
             </div>
-
+{/* //////////// TABLE END ////////////  */}
 
             </div>)
     }

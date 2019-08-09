@@ -6,6 +6,7 @@ import Modal from '../Components/modal/modalAddHist'
 import {getHist,deleteHist,updateHist} from '../redux/actions/history';
 import { Link } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip';
+const dataStorage = JSON.parse(localStorage.getItem("data")) || ""
 
 class histoooriii extends Component {
   //buat state kosong
@@ -39,6 +40,7 @@ class histoooriii extends Component {
 
     return (
       <div className="container">
+        {dataStorage.status && dataStorage.status == "admin" ?
         <div className="mt-5">
         <MaterialTable
           title="riwayat peminjaman"
@@ -86,8 +88,6 @@ class histoooriii extends Component {
                 }
               )
             }       
-          
-              
             actions={ [
               rowData => ({
                 icon: 'reply',
@@ -106,9 +106,13 @@ class histoooriii extends Component {
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             Open modal
       </button>
-      <Modal/>
-      </div></div>
-
+      <Modal/> 
+      
+      </div>
+            :
+          <h1>anda bukan admin</h1>
+        }
+      </div>
     );
   }
 }

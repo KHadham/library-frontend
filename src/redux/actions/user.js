@@ -1,6 +1,7 @@
 import axios from 'axios';
+import URL from "../URL";
 
-let URL = 'http://192.168.6.168:5000'
+//let URL = 'http://localhost:5000'
 
 export const getUser = () => {
   return {
@@ -14,6 +15,14 @@ export const postUser = (data) => {
   return {
     type: "POST_USERS",
     payload: axios.post(URL+'/users', data[0])
+  };
+};
+/////////////////////////////////////////////
+export const postUserIn = (data) => {
+  //console.log('ini dari aksi',data[0]);
+  return {
+    type: "POST_USERSIN",
+    payload: axios.post(URL+'/usersLogin', data)
   };
 };
 /////////////////////////////////////////////
@@ -38,5 +47,12 @@ export const updateUser = (bookid, data) => {
   return {
       type: 'UPDATE_USERS',
       payload: axios.patch(URL +`/users/${bookid}`, data)
+  }
+}
+///////////LOGOUT/////////////////////////////
+export const logoutUser = (bookid) => {
+  return {
+      type: 'LOGOUT_USERS',
+      payload: axios.patch(URL +`/usersLogout/${bookid}`)
   }
 }

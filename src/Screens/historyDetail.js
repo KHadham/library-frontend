@@ -30,18 +30,15 @@ class UsD extends Component {
             modal: !prevState.modal
         }));
     }
-    // changeHandle = (e) => { //MENERIMA PERUBAHAN PADA FORM
-    //   const name = e.currentTarget.name
-    //   const val = e.currentTarget.value
-
-    //   this.state.bookS.ListBuku[name] = val //NIMPA STATE DENGAN DATA YANG BARU "val"
-    //   this.setState({ bookS: this.state.bookS }) //TERUS DI SET STATE NYA
-		// }
     render() {
       const editList = async ()=>{
+        if(denda <0 ){
+          denda = 0
+        }
+        // (denda < 0 ? denda = 0 : denda)
 				this.state.updateS.push({
 					id_buku:stetEdit.id_buku,
-					
+					denda:denda
 				})
 	
 				const ID = this.props.match.params.idHist
@@ -49,7 +46,7 @@ class UsD extends Component {
         await this.props.dispatch(updateHist(ID,(this.state.updateS[0]) ))
           
         //reload setelah 500 mili detil setelah submit 
-        setTimeout(function(){ if(! alert("terimakasih telah meminjam")){window.location.reload();} }, 500);
+        setTimeout(function(){ if(! alert("terimakasih telah meminjam",denda < 0 ? "tidak ada denda" : denda + " rupiah"  )){window.location.reload();} }, 500);
 			}
         const arrayBaru = this.state.historiia.ListHistory || []
         const stetEdit = arrayBaru[0] || []
@@ -60,8 +57,10 @@ class UsD extends Component {
           moment(stetEdit.tanggal_kembali).dayOfYear()
         const selisih_hari = tanggal_kembali - tanggal_pinjam
         const sisahari = stetEdit.lama_pinjam- selisih_hari
-        const denda = (selisih_hari - stetEdit.lama_pinjam) * 1500
+
+        var denda = (selisih_hari - stetEdit.lama_pinjam) * 1500
         console.log("hst",selisih_hari)
+        
         return (
           <div  style={{width:"100%",backgroundImage: `url(${stetEdit.foto_sampul})`}} >
           <div >
@@ -133,10 +132,15 @@ class UsD extends Component {
                               <th>lama_pinjam</th>
                               <th>:  {stetEdit.lama_pinjam} hari</th>
                             </tr>
+                            {stetEdit.tanggal_kembali == null ? 
                             <tr>
                               <th>sisa hari</th>
-                              <th>:  { sisahari <0? "sisa waktu habis" : sisahari + " hari"}</th>
-                            </tr>
+                              <th>:  { sisahari <0? "sisa waktu habis, kamu lewat" + Math.abs(sisahari) + " hari"   : sisahari + " hari"} </th>
+                            </tr> :
+                                ""
+                            } 
+                            
+
                             <tr>
                   <th>Denda</th>
                   <th>:  {denda < 0 ? "tidak ada denda" : denda + " rupiah" } </th>

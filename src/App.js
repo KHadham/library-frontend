@@ -5,6 +5,7 @@ import Nav from './Components/Nav';
 
 import Profile from './Screens/Profile';
 import UserDetail from './Screens/userDetail';
+import UserProff from './Screens/userProfile';
 import MeditUser from './Components/modal/modalEditUser';
 
 import BUUKUU from './Screens/book';
@@ -15,6 +16,10 @@ import HIST from './Screens/history';
 import histDetail from './Screens/historyDetail';
 
 import store from './redux/store';
+import axios from 'axios'; 
+
+const tokenya = localStorage.getItem("token")
+const iduser = localStorage.getItem("number")
 
 class App extends Component {
   constructor() {
@@ -25,6 +30,10 @@ class App extends Component {
     };
   }
   render() {
+    axios.defaults.headers.common["authorization"] = "wikwik"
+    axios.defaults.headers.common["x-access-token"] =  tokenya
+    axios.defaults.headers.common["x-control-user"] = iduser
+
     // jsx expression {}
     return (
       <Provider store={store}>
@@ -37,9 +46,10 @@ class App extends Component {
             <Route  exact path={'/buku/:idd'} component={BuKuDeTaIl} />
             <Route  exact path={'/buku/:idd'} component={MeditBook} />
 
-            <Route  exact path={'/profile'} component={Profile} />
+            <Route  exact path={'/users'} component={Profile} />
             <Route  exact path={'/users/:iduser'} component={UserDetail} />
             <Route  exact path={'/users/:iduser'} component={MeditUser} />
+            <Route  exact path={'/profile'} component={UserProff} />
 
             <Route  exact path={'/history'} component={HIST} />
             <Route  exact path={'/history/:idHist'} component={histDetail} />

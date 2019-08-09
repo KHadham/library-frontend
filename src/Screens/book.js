@@ -3,6 +3,9 @@ import Posts from '../Components/posts';
 import Pagination from '../Components/Pagination';
 import axios from 'axios';
 import {getBuku} from '../redux/actions/book';
+import {deleteBuku} from '../redux/actions/book';
+import Modal from '../Components/modal/modalAddBook';
+
 // import './App.css';
 
 const App = () => {
@@ -32,15 +35,20 @@ const App = () => {
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
-    <div className='container mt-5'>
-      <Posts posts={currentPosts} loading={loading} />
+    <React.Fragment>
+      <div className='container mt-5'>
+        <button style={{ marginTop: '20px' }} type="button" class="btn btn-primary" data-toggle="modal" data-target="#getdebuk">donate</button>
+
+        <Posts posts={currentPosts} loading={loading} />
+        
+        <Modal/>
+      </div>
       <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={posts.length}
-        paginate={paginate}
-      />
-      
-    </div>
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+        />
+    </React.Fragment>
   );
 };
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import URL from "../URL";
 
-let URL = 'http://192.168.6.168:5000'
+//let URL = 'http://localhost:5000'
 
 export const getHist = () => {
   return {

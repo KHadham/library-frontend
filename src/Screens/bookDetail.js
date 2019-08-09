@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getBuku1 } from '../redux/actions/book'
-import {getUser} from "../redux/actions/user";
+import { deleteBuku } from '../redux/actions/book'
+// import {getUser} from "../redux/actions/user";
 import {postHist} from "../redux/actions/history";
 import '../../src/index.css'
+const dataStorage = JSON.parse(localStorage.getItem("data")) || ""
 
 class Detail extends Component {
 
@@ -24,7 +26,7 @@ class Detail extends Component {
 			const ID = this.props.match.params.idd
 
 				await this.props.dispatch(getBuku1(ID))
-				await this.props.dispatch(getUser());
+				// await this.props.dispatch(getUser());
 
         this.setState({
 						bookS:  			this.props.book,
@@ -36,12 +38,18 @@ class Detail extends Component {
         this.setState(prevState => ({
             modal: !prevState.modal
         }));
-		}
+    }
+    
+    handledetails = async (id) =>{
+      //this.props.history.push(`/borrowing/details/${id}`)
+      await this.props.dispatch(deleteBuku(id));
+      setTimeout(function(){ if(! alert("data telah di hapus")){window.location.href='/buku';} }, 500);
+    }
 
     render() {
 			const insertList =async ()=>{
 				this.state.insertHist.push({
-					id_peminjam:this.state.nama_peminjam,
+					id_peminjam:dataStorage.id_user,
 					id_buku:list.id_library,
 					lama_pinjam:this.state.lama_pinjam
 	
@@ -71,9 +79,20 @@ class Detail extends Component {
 									<ul className="tambahandetail">
 										<li><h5 className="category">{ list.nama_kategori }</h5></li>
 										<li><h5 className="location">{ list.lokasi }</h5></li>
-										<li><h5 className="status">{ list.status_pinjam }</h5></li>
-										<li  data-toggle="modal" data-target="#Pinjam" className="button"><input type="submit" class="btn btn-info" value="PINJAM"/></li>
-										<li  data-toggle="modal" data-target="#Memedit" className="button"><input type="submit" class="btn btn-info" value="edit"/></li>
+                    { dataStorage.status == "admin" ? 
+                    <li  className="button"><input type="submit" onClick={() =>this.handledetails(this.props.match.params.idd)} class="btn btn-danger" value="hapus"/></li>
+                    :<li  className="button"><input type="submit" disabled onClick={() =>this.handledetails(this.props.match.params.idd)}  value="hapus"/></li>
+
+                    }
+                    { list.status_pinjam == "tersedia" && dataStorage.status == "admin" || dataStorage.status == "member"  ? 
+                      <li  data-toggle="modal" data-target="#Pinjam" className="button"><input type="submit" class="btn btn-warning" value="PINJAM"/></li>
+                      : 
+                      <li  data-toggle="modal" data-target="#Pinjam" className="button"><input type="submit" disabled class="btn btn-warning" value="PINJAM"/></li>
+                    }
+                    { dataStorage.status == "admin" || "" ?
+										  <li  data-toggle="modal" data-target="#Memedit" className="button"><input type="submit" class="btn btn-success" value="edit"/></li>
+                      : ""
+                    }
 									</ul>
 									<p className="textDesc" >{ list.deskripsi }</p>
 								</div>
@@ -81,6 +100,7 @@ class Detail extends Component {
 						</div> 
 {/*------------ end detail ----------------*/}
 {/*------------ START MODAL ----------------*/}
+
 <form action="http://www.w3schools.com">
       <div class="modal fade" id="Pinjam">
         <div class="modal-dialog">
@@ -100,20 +120,17 @@ class Detail extends Component {
 								<option  value={list.id_library}>{list.nama_buku}</option>
               </select >
             </div>
+
             <div className="form-group">
               <label className="control-label">
-                User
+                user
               </label>
-              <select name="id" onChange = {(e)=>this.setState({nama_peminjam:e.target.value})} className="form-control" required>
-              <option >--Pilih pengguna--</option>
-                {user.map((list, index) =>{
-                  return(
-                      <option key ={index} value={list.id_user}>{list.fullname}</option>
-                  )
-              })}
+              <select disabled name="id" value={dataStorage.id_user} onChange = {(e)=>this.setState({idbukunya:e.target.value})} className="form-control" required>
+								<option >--Pilih Bukumu--</option>
+								<option  value={dataStorage.id_user}>{dataStorage.fullname}</option>
               </select >
             </div>
-						
+            
             <div className="form-group">
               <label className="control-label">
               lama hari

@@ -50,21 +50,6 @@ constructor(props) {
       })
     }
 
-    // const insertList =async ()=>{
-    //   const data = new FormData() 
-    //   data.append('foto_sampul', this.state.selectedFile)
-    //   // this.state.insertBook.push({
-    //   //   nama_buku   :this.state.nama_buku,
-    //   //   lokasi      :this.state.lokasi,
-    //   //   pengarang   :this.state.pengarang,
-    //   //   deskripsi   :this.state.deskripsi,
-    //   //   foto_sampul :this.state.foto_sampul,
-    //   //   id_kategori :this.state.id_category
-    //   // })
-    //   //const data = this.state.insertBook
-    //   this.props.dispatch(postBuku(data));
-    //   //setTimeout(function(){ if(! alert("data sudah di daftarkan")){window.location.reload();} }, 500);
-    // }
     const insertList = () => {
       const data = new FormData()
         data.append('foto_sampul', this.state.selectedFile ||  this.state.foto_sampul)
