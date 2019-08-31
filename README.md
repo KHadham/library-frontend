@@ -15,7 +15,7 @@
 - [Screenshoot](#screenshoot)
 
 ## Introduction
-  Libraryku is an application to make web-based online book loan simulation . There are several books with famous authors and can read a brief synopsis by looking at the details of the book
+  This is a web application to make web-based online book loan simulation . There are several books with famous authors and can read a brief synopsis by looking at the details of the book
 
 The purpose of this application is for people to borrow books online and easily
 
@@ -40,6 +40,13 @@ The purpose of this application is for people to borrow books online and easily
 
 ## Screenshoot
 
+<div align="center">
+    <img width="250" src="https://raw.githubusercontent.com/kampretosjr/library-frontend/master/screenshoot/login.png">    
+    <img width="250" src="https://raw.githubusercontent.com/kampretosjr/library-frontend/master/screenshoot/loged%20in%20mode.png">
+    <img width="250" src="https://raw.githubusercontent.com/kampretosjr/library-frontend/master/screenshoot/loan%20summary.png">
+    <img width="250" src="https://raw.githubusercontent.com/kampretosjr/library-frontend/master/screenshoot/Screenshot%20from%202019-08-31%2016-16-36.png" > 
+</div>
+
 ## Contributors
 <center>
   <table>
@@ -54,4 +61,4 @@ The purpose of this application is for people to borrow books online and easily
   </table>
 </center>
 
-# 
+#
