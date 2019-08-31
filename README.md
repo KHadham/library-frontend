@@ -21,7 +21,7 @@ The purpose of this application is for people to borrow books online and easily
 
 ## Features
 * users can see list book 
-* users can donate book with the cover book 
+* users can donate book and upload the cover book photo 
 * users can access their profile
 * users can see their own history activity when borrow book 
 * to access them all except list book, users must logged in first
@@ -54,4 +54,4 @@ The purpose of this application is for people to borrow books online and easily
   </table>
 </center>
 
-#
+# 
