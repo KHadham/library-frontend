@@ -89,7 +89,7 @@ class UsD extends Component {
                 <div className="mt-5">
                 
                 <MaterialTable
-                  title="Data ussr"
+                  title="List Data User"
                   columns={[
                     {
               title: 'Avatar',

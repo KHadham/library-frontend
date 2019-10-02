@@ -38,14 +38,14 @@ class profile extends Component {
       <div className="container">
         <div className="mt-5">
         <MaterialTable
-          title="Data ussr"
+          title="List Data User"
           columns={[
             {
               title: '',
               field: 'e',
               render: rowData => (
                 <Link to={`/users/${rowData.f}`} >
-                  <Tooltip title="Detail User">
+                  <Tooltip title="Detail peminjaman">
                   <img  placement="top-start" style = {{width:"30px"}}src="https://image.flaticon.com/icons/png/512/1/1755.png" alt="Italian Trulli"/>
                   </Tooltip>
                 </Link>
